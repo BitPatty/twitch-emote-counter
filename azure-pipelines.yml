@@ -33,9 +33,9 @@ steps:
     pwsh: true
     script: 'cd dist;
     $ErrorActionPreference = "Stop";
+    git init;
     git config --local user.name "Matteias Collet";
     git config --local user.email "matteias.collet@bluewin.ch";
-    git init;
     git add .;
     git commit -m "CI Build [skip ci]";
     git push -f git@github.com:bitpatty/twitch-emote-counter.git gh-pages;'
