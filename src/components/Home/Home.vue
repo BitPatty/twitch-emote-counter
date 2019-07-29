@@ -1,7 +1,7 @@
 <template>
   <main>
     <h1>Twitch Emote Counter</h1>
-    <form class="form" action="/#/counter" method="get">
+    <form class="form" method="get">
       <input v-model="channelName" type="text" name="chan" />
       <input type="submit" value="Submit" />
     </form>
