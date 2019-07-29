@@ -1,0 +1,44 @@
+# Node.js with Vue
+# Build a Node.js project that uses Vue.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  persistCredentials: true
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm i -g yarn
+    yarn install
+    yarn build
+  displayName: 'yarn install and build'
+
+- task: PowerShell@2
+  displayName: 'Push Changes'
+  env:
+    GitHub_PAT: $(GitHub_PAT)
+  inputs:
+    targetType: 'inline'
+    pwsh: true
+    script: 'cd dist;
+    $ErrorActionPreference = "Stop";
+    git config --local user.name "Matteias Collet";
+    git config --local user.email "matteias.collet@bluewin.ch";
+    git init;
+    git add .;
+    git commit -m "CI Build [skip ci]";
+    git push -f git@github.com:bitpatty/twitch-emote-counter.git gh-pages;'
+    failOnStderr: true
+    workingDirectory: '.'
+  condition: succeeded()
