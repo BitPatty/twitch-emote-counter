@@ -33,7 +33,7 @@ steps:
     git config --local user.email "matteias.collet@bluewin.ch";
     git add .;
     git commit -m "CI Build [skip ci]";
-    git push -f git@github.com:bitpatty/twitch-emote-counter.git HEAD:gh-pages;'
+    git push -qf $(GitHub_PAT) HEAD:gh-pages;'
     failOnStderr: true
     workingDirectory: '.'
   condition: succeeded()
