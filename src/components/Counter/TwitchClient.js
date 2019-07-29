@@ -73,7 +73,7 @@ export default class TwitchClient {
               }
             }
 
-            console.log(this.additionalEmotes)
+            //console.log(this.additionalEmotes)
           }).catch()
         }
       }).catch()
@@ -104,7 +104,7 @@ export default class TwitchClient {
       let w = str.split(/\s+/);
       let c = 0;
 
-      console.log(w);
+      //console.log(w);
       for (let i = 0; i < w.length; i++)
         if (this.additionalEmotes.includes(w[i])) c++;
       return c;

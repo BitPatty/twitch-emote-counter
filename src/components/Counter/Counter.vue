@@ -1,5 +1,5 @@
 <template>
-  <div id="counter"></div>
+  <div id="counter">0</div>
 </template>
 
 <script>
@@ -10,12 +10,6 @@ import { CountUp } from "countup.js";
 url.URLSearchParams = URLSearchParams;
 export default {
   name: "Counter",
-  props: {
-    channelName: {
-      type: String,
-      default: sessionStorage.getItem("channel")
-    }
-  },
   data() {
     return {
       channel: null,
@@ -42,10 +36,10 @@ export default {
     if (params.has("chan")) {
       this.channel = params.get("chan");
     } else {
-      this.channel = this.channelName;
+      this.channel = sessionStorage.getItem("channel");
     }
 
-    this.client = new TwitchClient(this.channelName);
+    this.client = new TwitchClient(this.channel);
     this.client.registerEmoteCallback(
       function(num) {
         this.increaseCounter(num);
