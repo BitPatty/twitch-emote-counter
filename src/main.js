@@ -3,14 +3,14 @@ import Home from './components/Home/Home.vue';
 import Counter from './components/Counter/Counter.vue';
 
 const routes = {
-  '/': Home,
-  '/counter': Counter
+  '/#/counter': Counter,
+  '/': Home
 }
 
 new Vue({
   el: '#app',
   data: {
-    currentRoute: window.location.pathname
+    currentRoute: `/${window.location.hash.split('?')[0]}`
   },
   computed: {
     ViewComponent() {
