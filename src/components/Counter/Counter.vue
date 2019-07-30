@@ -1,5 +1,7 @@
 <template>
-  <div id="counter" v-bind:style="counterStyles">0</div>
+  <main>
+    <div id="counter" v-bind:style="counterStyles">000000</div>
+  </main>
 </template>
 
 <script>
@@ -24,7 +26,6 @@ export default {
     increaseCounter: function(num) {
       let oldCount = this.emoteCount;
       this.emoteCount += num;
-
       new CountUp("counter", this.emoteCount, {
         startVal: oldCount
       }).start();
@@ -64,9 +65,10 @@ export default {
 </script>
 
 <style scoped>
+main,
 #counter {
-  font-size: 30vh;
-  text-align: right;
+  width: 100%;
+  font-size: 25vw;
 }
 </style>
  

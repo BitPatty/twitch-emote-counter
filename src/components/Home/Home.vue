@@ -8,6 +8,7 @@
           <input class="input" v-model="channelName" type="text" name="chan" />
         </div>
       </div>
+      <br />
       <label for="text-align" class="label">Text-Alignment</label>
       <div class="field">
         <div class="control">
@@ -56,12 +57,19 @@ main {
   min-width: 280px;
 }
 
-#sel_txt-align {
-  width: 100%;
-}
-
+#sel_txt-align,
 #sel_txt-align select {
   width: 100%;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
 </style>
 
+<style scoped>
+main {
+  padding: 40px 20px;
+}
+</style>
