@@ -1,9 +1,26 @@
 <template>
   <main>
-    <h1>Twitch Emote Counter</h1>
+    <h1 class="title">Twitch Emote Counter</h1>
     <form class="form" method="get">
-      <input v-model="channelName" type="text" name="chan" />
-      <input type="submit" value="Submit" />
+      <div class="field">
+        <label for="chan" class="label">Channel</label>
+        <div class="control">
+          <input class="input" v-model="channelName" type="text" name="chan" />
+        </div>
+      </div>
+      <label for="text-align" class="label">Text-Alignment</label>
+      <div class="field">
+        <div class="control">
+          <div id="sel_txt-align" class="select">
+            <select name="text-align">
+              <option value="left">Left</option>
+              <option value="center" selected>Center</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <input class="button" type="submit" value="Submit" />
     </form>
   </main>
 </template>
@@ -28,14 +45,23 @@ export default {
 html,
 body {
   width: 100%;
-  height: 100%;
   text-align: center;
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
-main,
-form {
+main {
   display: inline-block;
+  min-width: 280px;
+}
+
+#sel_txt-align {
+  width: 100%;
+}
+
+#sel_txt-align select {
+  width: 100%;
 }
 </style>
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="counter">0</div>
+  <div id="counter" v-bind:style="counterStyles">0</div>
 </template>
 
 <script>
@@ -13,6 +13,9 @@ export default {
   data() {
     return {
       channel: null,
+      counterStyles: {
+        textAlign: "left"
+      },
       client: null,
       emoteCount: 0
     };
@@ -35,8 +38,17 @@ export default {
     let params = new url.URLSearchParams(window.location.search);
     if (params.has("chan")) {
       this.channel = params.get("chan");
-    } else {
+    } else if (sessionStorage.has("channel")) {
       this.channel = sessionStorage.getItem("channel");
+    } else {
+      window.location = `${window.location.protocol}//${window.location.host}`;
+      return;
+    }
+
+    if (params.has("text-align")) {
+      this.counterStyles.textAlign = params.get("text-align");
+    } else {
+      this.counterStyles.textAlign = "center";
     }
 
     this.client = new TwitchClient(this.channel);
@@ -50,4 +62,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#counter {
+  font-size: 30vh;
+  text-align: right;
+}
+</style>
  
