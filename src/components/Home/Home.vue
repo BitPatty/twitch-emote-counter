@@ -50,6 +50,7 @@ body {
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
   padding: 0;
   margin: 0;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 main {
