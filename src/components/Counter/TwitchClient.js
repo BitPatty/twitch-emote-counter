@@ -12,11 +12,13 @@ export default class TwitchClient {
 
   ffzGlobalEmotes = 'https://api.frankerfacez.com/v1/set/global';
   ffzChannelEmotes = null;
+  bttvGlobalEmotes = 'https://api.betterttv.net/emotes';
+  bttvChannelEmotes = null;
 
   constructor(channelName) {
     this.channelName = channelName;
     this.ffzChannelEmotes = `https://api.frankerfacez.com/v1/room/${this.channelName}`;
-
+    this.bttvChannelEmotes = `https://api.betterttv.net/2/channels/${this.channelName}`;
     this._loadThirdPartyEmotes();
     this._registerUnloadEvent();
   }
@@ -60,10 +62,11 @@ export default class TwitchClient {
   async _loadThirdPartyEmotes() {
     await this._loadFFZEmotes(this.ffzGlobalEmotes);
     await this._loadFFZEmotes(this.ffzChannelEmotes);
+    await this._loadBTTVEmotes(this.bttvChannelEmotes);
   }
 
   async _loadFFZEmotes(url) {
-    let e = fetch(url)
+    fetch(url)
       .then((res) => {
         if (res.ok) {
           res.json().then((json) => {
@@ -72,11 +75,33 @@ export default class TwitchClient {
                 this.additionalEmotes.push(json.sets[s].emoticons[e].name);
               }
             }
-
-            //console.log(this.additionalEmotes)
           }).catch()
         }
       }).catch()
+  }
+
+  async _loadBTTVEmotes(url) {
+    fetch(url)
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((json) => {
+            for (let i = 0; i < json.emotes.length; i++) {
+              this.additionalEmotes.push(json.emotes[i].code);
+            }
+          }).catch()
+        }
+      }).catch()
+
+    fetch(this.bttvGlobalEmotes)
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((json) => {
+            for (let i = 0; i < json.emotes.length; i++) {
+              this.additionalEmotes.push(json.emotes[i].regex);
+            }
+          }).catch();
+        }
+      }).catch();
   }
 
   _countTwitchEmotes(tags) {
