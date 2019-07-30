@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div id="counter" v-bind:style="counterStyles">000000</div>
+    <div id="counter" v-bind:style="counterStyles">0</div>
   </main>
 </template>
 
