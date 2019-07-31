@@ -26,7 +26,6 @@ export default class TwitchClient {
   open() {
     this.webSocket = new WebSocket('wss://' + this.server + ':' + this.port + '/', 'irc');
     this.webSocket.onmessage = this.onMessage.bind(this);
-    //this.webSocket.onerror = this.onError.bind(this);
     this.webSocket.onclose = this.onClose.bind(this);
     this.webSocket.onopen = this.onOpen.bind(this);
   };

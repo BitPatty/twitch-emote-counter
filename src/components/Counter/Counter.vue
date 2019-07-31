@@ -16,7 +16,8 @@ export default {
     return {
       channel: null,
       counterStyles: {
-        textAlign: "left"
+        textAlign: "center",
+        color: "#000"
       },
       client: null,
       emoteCount: 0
@@ -33,24 +34,54 @@ export default {
   },
 
   watch: {
-    channel: newVal => sessionStorage.setItem("channel", newVal)
+    channel: newVal => localStorage.setItem("channel", newVal)
   },
   mounted() {
     let params = new url.URLSearchParams(window.location.search);
-    if (params.has("chan")) {
-      this.channel = params.get("chan");
-    } else if (sessionStorage.has("channel")) {
-      this.channel = sessionStorage.getItem("channel");
+    if (
+      params.has("chan") &&
+      params
+        .get("chan")
+        .trim()
+        .match(/^[a-zA-Z0-9]+$/)
+    ) {
+      this.channel = params.get("chan").trim();
+    } else if (
+      localStorage.getItem("channel") != null &&
+      localStorage.getItem("channel").match(/^[a-zA-Z0-9]+$/)
+    ) {
+      this.channel = localStorage.getItem("channel");
     } else {
       window.location = `${window.location.protocol}//${window.location.host}`;
       return;
     }
 
-    if (params.has("text-align")) {
+    if (
+      params.has("text-align") &&
+      ["left", "center", "right"].includes(params.get("text-align"))
+    ) {
       this.counterStyles.textAlign = params.get("text-align");
-    } else {
-      this.counterStyles.textAlign = "center";
+    } else if (
+      ["left", "right", "center"].includes(localStorage.getItem("tecAlignment"))
+    ) {
+      this.counterStyles.textAlign = localStorage.getItem("tecAlignment");
     }
+
+    if (
+      params.has("color") &&
+      params.get("color").match(/^#([a-fA-F0-9]{6}|[a-fA-F0-9]\1{3})$/)
+    ) {
+      this.counterStyles.color = params.get("color");
+    } else if (
+      localStorage.getItem("tecForeColor") != null &&
+      localStorage
+        .getItem("tecForeColor")
+        .match(/^#([a-fA-F0-9]{6}|[a-fA-F0-9]\1{3})$/)
+    ) {
+      this.counterStyles.color = localStorage.getItem("tecForeColor");
+    }
+
+    document.title = `Emote Counter: ${this.channel}`;
 
     this.client = new TwitchClient(this.channel);
     this.client.registerEmoteCallback(

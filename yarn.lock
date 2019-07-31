@@ -7894,6 +7894,11 @@ vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
+vue-swatches@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue-swatches/-/vue-swatches-1.0.3.tgz#84eb23ba99bbbb0d56698f3a8bdb1b340203d33b"
+  integrity sha512-3J+Nc3bisvhhp0BW0pfTbQvdl3i+dhwoPjoM+2D6R6hW65KNpXOA+sJwcSg2j1Xd6fLcOV7LMb2sz6s4vKSWRg==
+
 vue-template-compiler@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.10.tgz#323b4f3495f04faa3503337a82f5d6507799c9cc"
