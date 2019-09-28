@@ -16,7 +16,7 @@ export default class TwitchClient {
   bttvChannelEmotes = null;
 
   constructor(channelName) {
-    this.channelName = channelName;
+    this.channelName = channelName.trim().toLowerCase();
     this.ffzChannelEmotes = `https://api.frankerfacez.com/v1/room/${this.channelName}`;
     this.bttvChannelEmotes = `https://api.betterttv.net/2/channels/${this.channelName}`;
     this._loadThirdPartyEmotes();
