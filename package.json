@@ -11,7 +11,7 @@
     "core-js": "^2.6.5",
     "countup.js": "^2.0.4",
     "url-search-params-polyfill": "^7.0.0",
-    "vue": "^2.6.10",
+    "vue": "^2.6.11",
     "vue-router": "^3.0.7",
     "vue-swatches": "^1.0.3"
   },
