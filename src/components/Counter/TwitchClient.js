@@ -1,18 +1,18 @@
 /* eslint-disable */
 
 export default class TwitchClient {
-  channelName = '';
-  userName = 'justinfan12345';
-  server = 'irc-ws.chat.twitch.tv';
+  channelName = "";
+  userName = "justinfan12345";
+  server = "irc-ws.chat.twitch.tv";
   port = 443;
   webSocket = null;
   callbackFunctions = [];
   emoteRegex = /emotes=[^;]+/;
   additionalEmotes = [];
 
-  ffzGlobalEmotes = 'https://api.frankerfacez.com/v1/set/global';
+  ffzGlobalEmotes = "https://api.frankerfacez.com/v1/set/global";
   ffzChannelEmotes = null;
-  bttvGlobalEmotes = 'https://api.betterttv.net/emotes';
+  bttvGlobalEmotes = "https://api.betterttv.net/3/cached/emotes/global";
   bttvChannelEmotes = null;
 
   constructor(channelName) {
@@ -24,11 +24,14 @@ export default class TwitchClient {
   }
 
   open() {
-    this.webSocket = new WebSocket('wss://' + this.server + ':' + this.port + '/', 'irc');
+    this.webSocket = new WebSocket(
+      "wss://" + this.server + ":" + this.port + "/",
+      "irc"
+    );
     this.webSocket.onmessage = this.onMessage.bind(this);
     this.webSocket.onclose = this.onClose.bind(this);
     this.webSocket.onopen = this.onOpen.bind(this);
-  };
+  }
 
   registerEmoteCallback(callback) {
     this.callbackFunctions.push(num => callback(num));
@@ -56,7 +59,7 @@ export default class TwitchClient {
         this.webSocket.send("PONG :" + parsed.message);
       }
     }
-  };
+  }
 
   async _loadThirdPartyEmotes() {
     await this._loadFFZEmotes(this.ffzGlobalEmotes);
@@ -66,41 +69,53 @@ export default class TwitchClient {
 
   async _loadFFZEmotes(url) {
     fetch(url)
-      .then((res) => {
+      .then(res => {
         if (res.ok) {
-          res.json().then((json) => {
-            for (let s in json.sets) {
-              for (let e in json.sets[s].emoticons) {
-                this.additionalEmotes.push(json.sets[s].emoticons[e].name);
+          res
+            .json()
+            .then(json => {
+              for (let s in json.sets) {
+                for (let e in json.sets[s].emoticons) {
+                  this.additionalEmotes.push(json.sets[s].emoticons[e].name);
+                }
               }
-            }
-          }).catch()
+            })
+            .catch();
         }
-      }).catch()
+      })
+      .catch();
   }
 
   async _loadBTTVEmotes(url) {
     fetch(url)
-      .then((res) => {
+      .then(res => {
         if (res.ok) {
-          res.json().then((json) => {
-            for (let i = 0; i < json.emotes.length; i++) {
-              this.additionalEmotes.push(json.emotes[i].code);
-            }
-          }).catch()
+          res
+            .json()
+            .then(json => {
+              for (let i = 0; i < json.emotes.length; i++) {
+                this.additionalEmotes.push(json.emotes[i].code);
+              }
+            })
+            .catch();
         }
-      }).catch()
+      })
+      .catch();
 
     fetch(this.bttvGlobalEmotes)
-      .then((res) => {
+      .then(res => {
         if (res.ok) {
-          res.json().then((json) => {
-            for (let i = 0; i < json.emotes.length; i++) {
-              this.additionalEmotes.push(json.emotes[i].regex);
-            }
-          }).catch();
+          res
+            .json()
+            .then(json => {
+              for (let i = 0; i < json.length; i++) {
+                this.additionalEmotes.push(json[i].code);
+              }
+            })
+            .catch();
         }
-      }).catch();
+      })
+      .catch();
   }
 
   _countTwitchEmotes(tags) {
@@ -116,8 +131,18 @@ export default class TwitchClient {
 
   _countEmoji(str) {
     if (str) {
-      return Array.from(str.split(/[\ufe00-\ufe0f]/).join("")).length -
-        Array.from(str.replace(/([\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2694-\u2697]|\uD83E[\uDD10-\uDD5D])/g, "").split(/[\ufe00-\ufe0f]/).join("")).length;
+      return (
+        Array.from(str.split(/[\ufe00-\ufe0f]/).join("")).length -
+        Array.from(
+          str
+            .replace(
+              /([\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2694-\u2697]|\uD83E[\uDD10-\uDD5D])/g,
+              ""
+            )
+            .split(/[\ufe00-\ufe0f]/)
+            .join("")
+        ).length
+      );
     } else {
       return 0;
     }
@@ -128,7 +153,6 @@ export default class TwitchClient {
       let w = str.split(/\s+/);
       let c = 0;
 
-      //console.log(w);
       for (let i = 0; i < w.length; i++)
         if (this.additionalEmotes.includes(w[i])) c++;
       return c;
@@ -138,9 +162,9 @@ export default class TwitchClient {
   }
 
   _registerUnloadEvent() {
-    window.onbeforeunload = function () {
+    window.onbeforeunload = function() {
       if (this.webSocket != null) {
-        this.webSocket.onclose = function () {};
+        this.webSocket.onclose = function() {};
         this.webSocket.close();
       }
     };
@@ -150,23 +174,25 @@ export default class TwitchClient {
     var socket = this.webSocket;
 
     if (socket !== null && socket.readyState === 1) {
-      console.log('Connecting..');
-      socket.send('CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership');
+      console.log("Connecting..");
+      socket.send(
+        "CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership"
+      );
       socket.send(`NICK ${this.userName}`);
       socket.send(`JOIN #${this.channelName}`);
     }
-  };
+  }
 
   onClose() {
-    console.log('Disconnected from the chat server.');
+    console.log("Disconnected from the chat server.");
     this.open();
-  };
+  }
 
   close() {
     if (this.webSocket) {
       this.webSocket.close();
     }
-  };
+  }
 
   parseMessage(rawMessage) {
     var parsedMessage = {
@@ -178,15 +204,18 @@ export default class TwitchClient {
       username: null
     };
 
-    if (rawMessage[0] === '@') {
-      var tagIndex = rawMessage.indexOf(' '),
-        userIndex = rawMessage.indexOf(' ', tagIndex + 1),
-        commandIndex = rawMessage.indexOf(' ', userIndex + 1),
-        channelIndex = rawMessage.indexOf(' ', commandIndex + 1),
-        messageIndex = rawMessage.indexOf(':', channelIndex + 1);
+    if (rawMessage[0] === "@") {
+      var tagIndex = rawMessage.indexOf(" "),
+        userIndex = rawMessage.indexOf(" ", tagIndex + 1),
+        commandIndex = rawMessage.indexOf(" ", userIndex + 1),
+        channelIndex = rawMessage.indexOf(" ", commandIndex + 1),
+        messageIndex = rawMessage.indexOf(":", channelIndex + 1);
 
       parsedMessage.tags = rawMessage.slice(0, tagIndex);
-      parsedMessage.username = rawMessage.slice(tagIndex + 2, rawMessage.indexOf('!'));
+      parsedMessage.username = rawMessage.slice(
+        tagIndex + 2,
+        rawMessage.indexOf("!")
+      );
       parsedMessage.command = rawMessage.slice(userIndex + 1, commandIndex);
       parsedMessage.channel = rawMessage.slice(commandIndex + 1, channelIndex);
       parsedMessage.message = rawMessage.slice(messageIndex + 1);

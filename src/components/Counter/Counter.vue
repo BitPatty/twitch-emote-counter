@@ -102,4 +102,3 @@ main,
   font-size: 25vw;
 }
 </style>
- 
