@@ -1,3 +1,5 @@
+[test]
+
 # twitch-emote-counter
 
 A simple emote counter for Twitch chats which can be embedded into OBS as browser source.
