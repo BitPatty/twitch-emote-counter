@@ -12,7 +12,7 @@
     "countup.js": "^2.0.5",
     "url-search-params-polyfill": "^7.0.1",
     "vue": "^2.6.10",
-    "vue-router": "^3.2.0",
+    "vue-router": "^3.3.1",
     "vue-swatches": "^1.0.3"
   },
   "devDependencies": {
