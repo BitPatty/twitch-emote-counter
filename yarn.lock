@@ -2321,10 +2321,10 @@ cosmiconfig@^5.0.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-countup.js@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-2.0.6.tgz#3696046e787c08b16cee811710deb030576a3aa0"
-  integrity sha512-pcOaDNjW8dz3V5hCZTIwQpRDGm6tdxz0BRbcKEgCAr+j6jbJcdDdnumr4DpCSjhih7s1m/cWYZNC5MuFeSflFA==
+countup.js@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-2.0.7.tgz#56b72a87fc0ee3cadb38356c246ccac88fb0a8cc"
+  integrity sha512-FO0nQdvG1iQwHp28wdvkErxnNUSbdkzztqZ6YNHKLHydngD2tdiKEW8dFrqpahF3tj+Ma70h0vyYrCBzxlVWdg==
 
 create-ecdh@^4.0.0:
   version "4.0.3"
