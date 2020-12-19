@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+const urlPrefix = "https://pinch.zint.ch/";
+
 export default class TwitchClient {
   channelName = "";
   userName = "justinfan12345";
@@ -10,15 +12,15 @@ export default class TwitchClient {
   emoteRegex = /emotes=[^;]+/;
   additionalEmotes = [];
 
-  ffzGlobalEmotes = "https://api.frankerfacez.com/v1/set/global";
+  ffzGlobalEmotes = `${urlPrefix}https://api.frankerfacez.com/v1/set/global`;
   ffzChannelEmotes = null;
-  bttvGlobalEmotes = "https://api.betterttv.net/3/cached/emotes/global";
+  bttvGlobalEmotes = `${urlPrefix}https://api.betterttv.net/3/cached/emotes/global`;
   bttvChannelEmotes = null;
 
   constructor(channelName) {
     this.channelName = channelName.trim().toLowerCase();
-    this.ffzChannelEmotes = `https://api.frankerfacez.com/v1/room/${this.channelName}`;
-    this.bttvChannelEmotes = `https://api.betterttv.net/2/channels/${this.channelName}`;
+    this.ffzChannelEmotes = `${urlPrefix}https://api.frankerfacez.com/v1/room/${this.channelName}`;
+    this.bttvChannelEmotes = `${urlPrefix}https://api.betterttv.net/2/channels/${this.channelName}`;
     this._loadThirdPartyEmotes();
     this._registerUnloadEvent();
   }
